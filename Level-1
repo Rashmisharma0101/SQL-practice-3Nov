@@ -1,0 +1,20 @@
+Q1. Select all customers from the customers table who are from India.
+A1. select * from customers where country ='India'
+Q2. Retrieve all orders where order_amount > 5000.
+A2. select * from orders where order_amount > 5000
+Q3. Find the total number of orders placed by each customer.
+A3. select customer_id, count(order_id) from orders group by customer_id
+Q4. Get the average salary of employees in each department.
+A4. select department, avg(salary) from employees group by department
+Q5. List products in descending order of price.
+A5. select product_id from products order by price desc
+Q6. Show customers whose names start with “A”.
+A6. select customer_name from customers where customer_name like 'A%'
+Q7. Find the top 5 highest-paid employees.
+A7. select  employee_name, salary from employees order by salary desc limit 5
+Q8. Count how many unique customers placed orders in 2024.
+A8. select count(distinct(customer_id)) from orders where order_date between '2024-01-01' and '2024-12-31'
+Q9. Retrieve all rows where city is either Delhi or Mumbai.
+A9. select * from customers where city in ('Delhi', 'Mumbai')
+Q10. Get all products whose price is between 100 and 500.
+A10. select * from products where price between 100 and 500
