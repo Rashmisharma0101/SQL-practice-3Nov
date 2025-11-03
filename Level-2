@@ -22,6 +22,9 @@ group by orders.customer_id, orders.product_id
 Q6. List all orders where order amount is greater than the average order amount.
 A6. select * from orders where amount > (select avg(orders.amount) from orders)
 Q7. Get names of customers who ordered more than one product category.
-A7. select 
+A7. select customers.name from customers join orders on customers.cutomer_id = orders.cutomer_id
+join products on products.product_id = orders.product_id
+
+
 
 
