@@ -24,7 +24,8 @@ A6. select * from orders where amount > (select avg(orders.amount) from orders)
 Q7. Get names of customers who ordered more than one product category.
 A7. select orders.customer_id, count(products.category) from customers join orders on customers.cutomer_id = orders.cutomer_id
 join products on products.product_id = orders.product_id group by orders.customer_id having count(products.category) > 1
-Q8. 
+Q8. Show the category that has the highest average product price.
+A8. select products.category, price from products
 
 
 
