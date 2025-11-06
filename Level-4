@@ -1,0 +1,24 @@
+LEVEL 4: CTE & COMPLEX LOGIC
+Goal: Write multi-step queries that are easy to debug.
+
+Q1. Using a CTE, calculate monthly sales and then find which month had the maximum revenue.
+A1. with cte1 as (select month(order_date) as month , amount from orders), 
+cte2 as select cte1.month, sum(cte1.amount) from cte1 group by cte1.month order by sum(cte1.amount) desc limit 1
+
+Q2. Write a recursive CTE to list all employees under a given manager (hierarchy query).
+
+Use a CTE to calculate average purchase value per user and then select users above the global average.
+
+Combine multiple CTEs — one for total sales, one for customer counts — then compute sales per customer.
+
+Find repeat customers (those who have placed >1 order in different months).
+
+Identify customers whose second purchase value is higher than their first.
+
+Create a CTE to find inactive customers (no order in last 6 months).
+
+Use a CTE to rank users by number of purchases and filter top 10%.
+
+Calculate month-over-month sales growth using CTE and window functions.
+
+Find categories where revenue growth rate is declining for 3 consecutive months.
