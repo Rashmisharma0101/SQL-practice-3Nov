@@ -15,3 +15,13 @@ select cte1.employee_id, cte1.city, (cte1.city_average - cte1.salary) as sal_dif
 Q6. Retrieve customers whose order amount is greater than their own average order amount.
 A6. with cte1 as (select customer_id,amount, (select avg(amount) from orders group by customer_id) as order_average from orders)
 select cte1.customer_id, cte1.amount from cte1 where amount > order_average
+Q7. Find the first order date for each customer.
+A7. with cte1 as (select customer_id, order_date, rank() over (partition by  customer_id order by order_date) as ranking from orders)
+select cte1.customer_id, cte1.order_date from cte1 where ranking = 1
+Q8. Show percentage contribution of each product to total category sales.
+A8. 
+Q9. List each employee’s salary along with the cumulative sum of salaries in their department.
+A9. with cte1 as (select department, sum(salary) as cum_sum from employees group by department)
+select employee.employee_id, employee.salary, cte1.department, cte1.cum_sum from cte1 join employees on cte1.department = employees.department
+Q10. For each category, rank products by total revenue.
+A10. select products.category, product_id, rank() over(partition by products.category order by amount desc) as ranking from orders join products on orders.product_id = products.product_id
