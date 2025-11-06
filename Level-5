@@ -36,7 +36,9 @@ where employees.salary > cte1.avg_sal
 Q2. List departments where more than 50% of employees earn above 70,000.
 A2. 
 
-Identify employees promoted more than once in a year.
+Q3. Identify employees promoted more than once in a year.
+A3. with cte1 as (select employee_id, designation from employees order by employee_id, designation)
+select employee_id, count(*) from cte1 group by employee_id having count(*) > 2
 
 Find departments with the largest salary gap between top and bottom earners.
 
