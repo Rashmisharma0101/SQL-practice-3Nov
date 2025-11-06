@@ -6,26 +6,28 @@ Tables:
   products(product_id, category, price)
 
 Q1. Get each customer's total spending amount.
-A1. select customer_id, sum(orders.amount) from orders group by customer_id
+A1. select customer_id, sum(orders.amount) as total_spent from orders group by customer_id
 Q2. Find customers who haven’t placed any orders.
 A2. select customer_id from customers where customer_id not in (
-select customer_id from customers left join orders on customers.customer_id = orders.customer_id)
+select orders.customer_id from orders)
 Q3. List product categories with total sales > 10,000.
 A3. select products.category, sum(orders.amount) from products join orders on products.product_id = orders.product_id
-where sum(orders.amount) > 10000
+group by products.category having sum(orders.amount) > 10000
 Q4. Find all customers who bought products from the “Electronics” category.
-A4. select distinct(orders.customer_id) from orders join customers on orders.customer_id = customers.customer_id join products on 
-orders.product_id = products.product_id where products.category = 'Electronic'
+A4. select distinct orders.customer_name from orders join customers on orders.customer_id = customers.customer_id join products on 
+orders.product_id = products.product_id where products.category = 'Electronics'
 Q5. Retrieve the most expensive product purchased by each customer.
-A5. select orders.customer_id, orders.product_id, max(products.price) from orders join products on orders.product_id = products.product_id
-group by orders.customer_id, orders.product_id
+A5. select orders.customer_id, max(products.price) from orders join products on orders.product_id = products.product_id
+group by orders.customer_id
 Q6. List all orders where order amount is greater than the average order amount.
 A6. select * from orders where amount > (select avg(orders.amount) from orders)
 Q7. Get names of customers who ordered more than one product category.
-A7. select orders.customer_id, count(products.category) from customers join orders on customers.cutomer_id = orders.cutomer_id
-join products on products.product_id = orders.product_id group by orders.customer_id having count(products.category) > 1
+A7. select orders.customer_id, count(distinct products.category) from customers join orders on customers.cutomer_id = orders.cutomer_id
+join products on products.product_id = orders.product_id group by orders.customer_id having count(distinct products.category) > 1
 Q8. Show the category that has the highest average product price.
 A8. select products.category, avg(price) from products group by products.category order by avg(price) desc limit 1
 Q9. Write a query to find duplicate customer emails.
-
+A9. select email, count(*) from customers group by email having count(*) > 1
+Q10. Get all orders placed in the last 3 months.
+A10. select order_id from orders where order_date >= DATEADD(MONTH, -3, CURRENT_DATE);
 
