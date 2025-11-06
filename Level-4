@@ -21,12 +21,21 @@ Q5. Find repeat customers (those who have placed >1 order in different months).
 A5. with cte1 as (select customer_id, month(order_date) as month from orders),
 cte2 as (select cte1.customer_id, rank() over(partition by customer_id order by cte1.month) as ranking
 
-Identify customers whose second purchase value is higher than their first.
+Q6. Identify customers whose second purchase value is higher than their first.
+A6. with cte1 as (select customer_id, order_date, amount, rank() over (partition by customer_id order by order_date desc) as ranking  from orders)
+select cte1.customer_id, amount from cte1 c1 join cte1 c2 on cte1.customer_id = cte2.customer_id and cte1.ranking = 1 and cte2.ranking = 2
+where cte1.ranking > cte2.ranking
 
-Create a CTE to find inactive customers (no order in last 6 months).
+Q7. Create a CTE to find inactive customers (no order in last 6 months).
+A7. select
 
-Use a CTE to rank users by number of purchases and filter top 10%.
+Q8.Use a CTE to rank users by number of purchases and filter top 10%.
+A8. with cte1 as (select customer_id, count(*) as cnt from orders group by customer_id), 
+cte2 as (select cte1.customer_id, rank() over (partition by cte1.customer_id order by cte1.cnt desc) as ranking from cte1)
+select cte2.customer_id from cte2 order by ranking desc limit 10
 
-Calculate month-over-month sales growth using CTE and window functions.
+Q9. Calculate month-over-month sales growth using CTE and window functions.
+A9. 
 
-Find categories where revenue growth rate is declining for 3 consecutive months.
+Q10. Find categories where revenue growth rate is declining for 3 consecutive months.
+A10.
