@@ -1,0 +1,17 @@
+LEVEL 3: WINDOW FUNCTIONS
+Goal: Rank, running totals, moving averages, partitions.
+Q1. Rank employees by salary within each department.
+A1. select employee_name, department, rank() over (partition by department order by salary desc) as ranking from employees
+Q2. Show each order’s total along with a running total (ordered by date).
+A2. 
+Q3. Find the top 3 highest orders per customer.
+A3. with cte1 as(select customer_id, amount, rank() over(partition by customer_id order by amount desc) as ranking from orders)
+select cte1.customer_id, cte1.amount from cte1 where rank in (1,2,3)
+Q4. Compute a moving average of sales over the last 7 days.
+A4.
+Q5. For each city, show the difference between each employee’s salary and the city average.
+A5. with cte1 as (select employee_id, city, (select avg(salary) from employees group by city) as city_average, salary from employees)
+select cte1.employee_id, cte1.city, (cte1.city_average - cte1.salary) as sal_diff from cte1
+Q6. Retrieve customers whose order amount is greater than their own average order amount.
+A6. with cte1 as (select customer_id,amount, (select avg(amount) from orders group by customer_id) as order_average from orders)
+select cte1.customer_id, cte1.amount from cte1 where amount > order_average
