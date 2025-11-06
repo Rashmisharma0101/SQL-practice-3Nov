@@ -6,12 +6,20 @@ A1. with cte1 as (select month(order_date) as month , amount from orders),
 cte2 as select cte1.month, sum(cte1.amount) from cte1 group by cte1.month order by sum(cte1.amount) desc limit 1
 
 Q2. Write a recursive CTE to list all employees under a given manager (hierarchy query).
+A2. 
 
-Use a CTE to calculate average purchase value per user and then select users above the global average.
+Q3. Use a CTE to calculate average purchase value per user and then select users above the global average.
+A3. with cte1 as (select customer_id, avg(amount) as avg_amount from orders group by customer_id)
+select cte1.customer_id, cte1.avg_amount from cte1 where cte1. avg_amount > (select avg(amount) from orders)
 
-Combine multiple CTEs — one for total sales, one for customer counts — then compute sales per customer.
+Q4. Combine multiple CTEs — one for total sales, one for customer counts — then compute sales per customer.
+A4. with cte1 as (select sum(sales)  as sales_sum from orders),
+cte2 as (select count(customer_id) as cust_count from orders group by customer_id)
+select cte1.sales_sum / cte2.cust_count as sales_per_customer
 
-Find repeat customers (those who have placed >1 order in different months).
+Q5. Find repeat customers (those who have placed >1 order in different months).
+A5. with cte1 as (select customer_id, month(order_date) as month from orders),
+cte2 as (select cte1.customer_id, rank() over(partition by customer_id order by cte1.month) as ranking
 
 Identify customers whose second purchase value is higher than their first.
 
