@@ -1,0 +1,43 @@
+# 💼 LEVEL 5: CASE-BASED QUESTIONS (INTERVIEW STYLE)
+# Case 1: E-Commerce
+
+Tables: orders, customers, products
+
+Q1. Find the customer who generated the highest total revenue.
+A1. select customer_id, sum(amount) from orders group by customer_id order by sum(amount) desc limit 1
+
+Q2. Identify the month with the highest average order value.
+A2. select month(order_date), avg(amount) from orders group by month(order_date) order by avg(amount) desc limit 1
+
+Q3. Find products that were never sold.
+A3. select distinct product_id from products not in (select distinct product_id from orders)
+
+Q4. Calculate customer retention rate (customers who purchased in consecutive months).
+A4. select customer_id, month(order_date), 
+
+Q5. Segment customers based on total lifetime spending (use CASE WHEN: low, medium, high spenders).
+A5. select customer_id, case
+when sum(amount) > 5000 then 'High Spenders'
+when sum(amount) > 1000 then 'Medium'
+else 'low'
+end as category_spending
+from orders
+group by customer_id
+
+### Case 2: Employee Database
+
+Tables: employees, departments, salaries
+
+Q1. Find employees whose salary is above their department average.
+A1. with cte1 as (select department, avg(salary) as avg_sal from employees group by department)
+select employee_id, salary from employees join cte1 on employees.department =  cte1.department
+where employees.salary > cte1.avg_sal
+
+Q2. List departments where more than 50% of employees earn above 70,000.
+A2. 
+
+Identify employees promoted more than once in a year.
+
+Find departments with the largest salary gap between top and bottom earners.
+
+Rank departments by total salary expense.
