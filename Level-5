@@ -40,6 +40,12 @@ Q3. Identify employees promoted more than once in a year.
 A3. with cte1 as (select employee_id, designation from employees order by employee_id, designation)
 select employee_id, count(*) from cte1 group by employee_id having count(*) > 2
 
-Find departments with the largest salary gap between top and bottom earners.
+Q4. Find departments with the largest salary gap between top and bottom earners.
+A4. with cte1 as (select department, min(salary) as min_salary, max(salary) as max_salary from employees group by department),
+cte2 as (select cte1.department , cte1.max_salary - cte1.min_salary as salary_diff from cte1)
+select cte2.department, cte2.salary_diff, rank() over (partition by cte2.department order by cte2.salary_diff desc) as ranking from cte2
+order by ranking desc limit 5
 
-Rank departments by total salary expense.
+Q5. Rank departments by total salary expense.
+A5. with cte1 as (select department, sum(salary) as sum_sal from employees group by department)
+select cte1.department, cte1.sum_sal, rank() over (partition by cte1.department order by cte1.sum_sal desc) as ranking from cte1
