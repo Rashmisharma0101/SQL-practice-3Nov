@@ -1,0 +1,9 @@
+⚡ Bonus: Optimization / Debugging Questions
+
+1. Difference between INNER JOIN and EXISTS? When to use which?
+2. How does indexing affect GROUP BY and ORDER BY?
+3. Why might a subquery be slower than a join?
+4. What’s the difference between COUNT(*), COUNT(column), and COUNT(DISTINCT column)?
+5. How do you find and remove duplicates in a table?
+6. What happens if a column used in GROUP BY has NULL values?
+7. How do you handle NULLs in comparison and aggregation?
